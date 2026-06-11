@@ -15,11 +15,12 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 
 def carregar_dados():
     try:
-        df_users = conn.read(spreadsheet=URL_DA_FOLHA, worksheet="Utilizadores", ttl=0)
-        df_bets = conn.read(spreadsheet=URL_DA_FOLHA, worksheet="Apostas", ttl=0)
+        # Trocámos o ttl=0 para ttl=15 (O site memoriza o Excel durante 15 segundos)
+        df_users = conn.read(spreadsheet=URL_DA_FOLHA, worksheet="Utilizadores", ttl=15)
+        df_bets = conn.read(spreadsheet=URL_DA_FOLHA, worksheet="Apostas", ttl=15)
         return df_users, df_bets
     except Exception as e:
-        st.error("Erro ao ligar ao Google Sheets.")
+        st.warning("A sincronizar com a Google... Aguarda uns segundos e recarrega a página.")
         return pd.DataFrame(), pd.DataFrame()
 
 df_utilizadores, df_todas_apostas = carregar_dados()
