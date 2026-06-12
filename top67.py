@@ -83,7 +83,7 @@ if perfil_selecionado == usuario_atual:
     tipo_aposta = st.sidebar.radio("Tipo de Aposta", ["Simples", "Múltipla"], horizontal=True, key=f"tipo_{k}")
 
     if tipo_aposta == "Múltipla":
-        num_jogos = st.sidebar.number_input("Quantos jogos na Múltipla?", min_value=2, max_value=10, value=2, key=f"num_{k}")
+        num_jogos = st.sidebar.number_input("Quantos jogos na Múltipla?", min_value=2, max_value=30, value=2, key=f"num_{k}")
         jogos, mercados = [], []
         for i in range(num_jogos):
             col1, col2 = st.sidebar.columns(2)
