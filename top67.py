@@ -97,13 +97,12 @@ if perfil_selecionado == usuario_atual:
 
     nova_odd = st.sidebar.number_input("Odd Total", min_value=1.00, step=0.01, format="%.2f", value=1.00, key=f"odd_{k}")
     nova_aposta = st.sidebar.number_input("Aposta (€)", min_value=0.50, step=0.50, format="%.2f", value=0.50, key=f"aposta_{k}")
-    novo_estado = st.sidebar.selectbox("Estado", ["Pendente", "Ganha", "Perdida", "Reembolso"], key=f"estado_{k}")
+    novo_estado = st.sidebar.selectbox("Estado", ["Pendente", "Ganha", "Perdida"], key=f"estado_{k}")
 
     retorno_potencial = nova_odd * nova_aposta
     st.sidebar.info(f"💰 Retorno Potencial: **{retorno_potencial:.2f} €**")
 
     if novo_estado == "Ganha": novo_retorno = retorno_potencial
-    elif novo_estado == "Reembolso": novo_retorno = nova_aposta
     else: novo_retorno = 0.00
 
     if st.sidebar.button("Guardar Aposta na Nuvem", use_container_width=True):
@@ -226,7 +225,7 @@ if perfil_selecionado == usuario_atual and not df_perfil.empty:
         with col_sel:
             aposta_selecionada = st.selectbox("Escolhe a aposta para fechar:", range(len(opcoes_pendentes)), format_func=lambda x: opcoes_pendentes[x])
         with col_est:
-            novo_status_pendente = st.selectbox("Resultado Final:", ["Ganha", "Perdida", "Reembolso"])
+            novo_status_pendente = st.selectbox("Resultado Final:", ["Ganha", "Perdida"])
         with col_btn:
             st.write(""); st.write("")
             if st.button("Atualizar na Nuvem", use_container_width=True):
@@ -238,8 +237,6 @@ if perfil_selecionado == usuario_atual and not df_perfil.empty:
                 
                 if novo_status_pendente == "Ganha":
                     df_todas_apostas.at[idx_original_na_bd, "Retorno (€)"] = odd_real * aposta_real
-                elif novo_status_pendente == "Reembolso":
-                    df_todas_apostas.at[idx_original_na_bd, "Retorno (€)"] = aposta_real
                 else:
                     df_todas_apostas.at[idx_original_na_bd, "Retorno (€)"] = 0.00
                 
